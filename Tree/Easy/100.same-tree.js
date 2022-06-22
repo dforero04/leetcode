@@ -18,7 +18,7 @@
  * @param {TreeNode} q
  * @return {boolean}
  */
-//This is more of a BFS because you are checking the root first
+// This is a PRE-ORDER DEPTH FIRST SEARCH (ROOT, LEFT, RIGHT)
 var isSameTree = function (p, q) {
   // Check to see if TreeNodes are null
   if (!p && !q) return true;
