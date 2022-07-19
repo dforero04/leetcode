@@ -59,10 +59,11 @@ var sortColors = function (nums) {
 
   // Before you hit the first sorted 2
   while (curr <= right) {
-    // If we hit a 0 value, move it all the way to the left position, the inc left
+    // If we hit a 0 value, move it all the way to the left position, the inc left and current
     if (nums[curr] === 0) {
       [nums[curr++], nums[left++]] = [nums[left], nums[curr]];
-      // If we hit a 2 value, move it all the way to the right position, the dec right
+      // If we hit a 2 value, move it all the way to the right position, the dec right ONLY
+      // We ONLY dec right because we still want to check the new value at current, which is the one that switched with the two
     } else if (nums[curr] === 2) {
       [nums[curr], nums[right--]] = [nums[right], nums[curr]];
     } else {
