@@ -1,0 +1,64 @@
+///////////////////////////////////////////////////////////
+// Prompt
+// - Given a hospital with n rooms, and there can only be 1 patient in each room,
+// output the hosptial room that is used the most times.
+// Inputs
+// - Number of hospital rooms = n
+// - Array of Appt times = [1, 3, 5, 8, 19]
+//  -- For each index (patient), the value is the time the patient will arrive
+// - Array of Appt durations = [20, 3, 2, 1, 1]
+//  -- For each index (patient), the value is how long the patient's appt is for, aka how long they will use the room
+///////////////////////////////////////////////////////////
+
+const getHighestRoomUsage = function (numRooms, times, durations) {
+  // Used to keep track of how often a room is used
+  const roomUsageMap = new Map();
+  // Used to keep track of the current state of the rooms
+  const currentRoomUsage = new Array(numRooms);
+
+  for (let i = 0; i < numRooms; i++) {
+    roomUsageMap.set(i, 0);
+    currentRoomUsage[i] = 0;
+  }
+
+  // previousTime will help keep track of time elapsed between appts
+  let previousTime = 0;
+  for (let i = 0; i < times.length; i++) {
+    let currentTime = times[i];
+    console.log(`Current Time is ${currentTime}`);
+    let elapsedTime = currentTime - previousTime;
+    console.log(`Elapsed Time is ${elapsedTime}`);
+    previousTime = currentTime;
+    console.log(`Room status at start of Patient ${i} is ${currentRoomUsage}`);
+    let currentPatientFilled = false;
+    for (let j = 0; j < currentRoomUsage.length; j++) {
+      if (currentRoomUsage[j] > 0) {
+        currentRoomUsage[j] -= elapsedTime;
+        if (currentRoomUsage[j] <= 0) {
+          console.log(
+            `Room ${j} is empty! Let's check if patient ${i} has been filled`
+          );
+          if (!currentPatientFilled) {
+            console.log(`Oh no! Patient ${i} hasn't been filled`);
+            currentRoomUsage[j] = durations[i];
+            roomUsageMap.set(j, roomUsageMap.get(j) + 1);
+            currentPatientFilled = true;
+          } else {
+            console.log(`Patient ${i} has been filled`);
+            currentRoomUsage[j] = 0;
+          }
+        }
+      } else {
+        currentRoomUsage[j] = durations[i];
+        roomUsageMap.set(j, roomUsageMap.get(j) + 1);
+        break;
+      }
+    }
+    console.log(`Room status at end of Patient ${i} is ${currentRoomUsage}`);
+  }
+
+  console.log(roomUsageMap);
+  return roomUsageMap.get(Math.max(...roomUsageMap.values()));
+};
+
+console.log(getHighestRoomUsage(3, [1, 3, 5, 8, 19], [20, 3, 2, 1, 4]));
