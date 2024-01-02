@@ -64,9 +64,13 @@ var majorityElement = function (nums) {
   ////////////////////////////////////////////////////////////////////
   // We start with the first value and increment count.
   // If we run into same value, increment count.
-  // If we run into another value, decrement count.
-  // If count === 0 and we run into another value, change res to new value
-  // and increment count to 1
+  // If we run into another value, do the following:
+  // -- If count === 0, change res to new value and increment count
+  // -- If count != 0, just decrement count
+  // ---- We do this because if count === 0, there is currently no max value
+  // ---- If count != 0, we decrement by 1 because the count of the max value
+  //      is now 1 less than before. We do not need to keep track of the count
+  //      for the result, just which value is max
   ////////////////////////////////////////////////////////////////////
   // This solution's time and space complexity:
   // Time: O(n) because we only go through the array once
